@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Hello World!</title>
+  <title><%= node.name %></title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <style>body {font: normal 16px Helvetica; margin: 4em;}</style>
 </head>
 <body>
   <h2>
-    Hello World!
+    Hello from <%= node[:platform].capitalize %> <%= node[:platform_version] %>
+    at <%= node[:ipaddress] %>!
   </h2>
+
+  <p>Running on Nginx <%= node[:nginx][:version] %></p>
 </body>
 </html>
