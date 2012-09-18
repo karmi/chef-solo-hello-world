@@ -11,6 +11,9 @@
     at <%= node[:ipaddress] %>!
   </h2>
 
-  <p>Running on Nginx <%= node[:nginx][:version] %></p>
+  <p>
+    Running on Nginx <%= node[:nginx][:version] %>
+    <% if node[:ec2] %>in an Amazon <code><%= node[:ec2][:instance_type] %></code> instance<% end %>
+  </p>
 </body>
 </html>

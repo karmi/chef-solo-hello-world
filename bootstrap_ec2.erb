@@ -1,0 +1,37 @@
+bash -c "
+
+echo '-- Updating packages -------';
+apt-get update --quiet --yes
+echo '-- Installing curl ---------';
+apt-get install curl --quiet --yes
+
+test -d '/opt/chef' || \
+  (
+  echo '-- Installing Chef -------';
+  curl -# -L http://www.opscode.com/chef/install.sh | bash
+  )
+
+echo '-- Setting up chef ---------';
+mkdir -p /etc/chef
+mkdir -p /etc/chef/ohai/hints
+mkdir -p /var/chef/site-cookbooks /var/chef/cookbooks /etc/chef
+touch /etc/chef/solo.rb
+
+echo '-- Downloading site cookbooks';
+mkdir -p /tmp/cookbooks /tmp/site-cookbooks
+curl -# -L -k http://s3.amazonaws.com/community-files.opscode.com/cookbook_versions/tarballs/2059/original/ohai.tgz | tar xz -C /tmp/site-cookbooks
+curl -# -L -k http://s3.amazonaws.com/community-files.opscode.com/cookbook_versions/tarballs/1863/original/build-essential.tgz | tar xz -C /tmp/site-cookbooks
+curl -# -L -k http://s3.amazonaws.com/community-files.opscode.com/cookbook_versions/tarballs/1425/original/runit.tgz | tar xz -C /tmp/site-cookbooks
+curl -# -L -k http://s3.amazonaws.com/community-files.opscode.com/cookbook_versions/tarballs/2056/original/nginx.tgz | tar xz -C /tmp/site-cookbooks
+cp -r /tmp/site-cookbooks /var/chef/
+
+echo '-- Downloading repository --';
+mkdir -p /tmp/chef-solo-hello-world
+curl -# -L -k https://github.com/karmi/chef-solo-hello-world/tarball/master | tar xz --strip 1 -C /tmp/chef-solo-hello-world
+cp -r /tmp/chef-solo-hello-world/cookbooks /var/chef/
+cp /tmp/chef-solo-hello-world/node.json /etc/chef/node.json
+
+echo; echo '== Bootstrap done =========='; echo;
+
+chef-solo -j /etc/chef/node.json
+"
