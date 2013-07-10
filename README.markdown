@@ -3,7 +3,7 @@ Chef Solo Hello World
 
 This repository contains a tutorial for [Chef Solo](http://wiki.opscode.com/display/chef/Chef+Solo).
 
-It contains five steps which demonstrate the basics of Chef:
+It contains four steps which demonstrate the basics of Chef:
 
 1. The simplest node configuration: install Nginx
 3. Add a simple "website" for Nginx with the "application" cookbook
