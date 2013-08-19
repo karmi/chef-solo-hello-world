@@ -31,7 +31,7 @@ First, launch the virtual machine with Vagrant:
 
 Then, download the required cookbooks, either with Berkshelf:
 
-    berks install --shims ./tmp/cookbooks
+    berks install --path ./tmp/cookbooks
 
 ... or manually with `curl`:
 
